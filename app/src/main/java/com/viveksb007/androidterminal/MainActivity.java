@@ -15,16 +15,15 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static AppCompatActivity mActivity;
     EditText mUserName;
     Button mLoginTerminal;
     String userName;
+    String FIREBASE_URL = "https://androidterminal.firebaseio.com/";
     boolean firstTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mActivity = this;
         mUserName = (EditText)findViewById(R.id.etUserName);
         mLoginTerminal = (Button)findViewById(R.id.btnLoginTerminal);
         SharedPreferences sharedPreferences = getSharedPreferences("MyData",Context.MODE_PRIVATE);
@@ -41,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
                         saveUserName();
                     }
                     Intent i = new Intent(getApplicationContext(), Terminal.class);
+                    i.putExtra("FirebaseUrl",FIREBASE_URL);
+                    i.putExtra("Username",mUserName.getText().toString());
                     startActivity(i);
                 }
 

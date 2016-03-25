@@ -21,7 +21,7 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_settings);
         mNewUserName = (EditText)findViewById(R.id.etNewUserName);
-        MainActivity.mActivity.finish();
+
     }
 
     @Override

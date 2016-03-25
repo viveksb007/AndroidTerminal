@@ -12,6 +12,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
 import java.util.ArrayList;
 
 
@@ -22,11 +27,15 @@ public class Terminal extends Activity {
     EditText mCommand;
     ListView mListView;
     ArrayAdapter<String> arrayAdapter;
+    Firebase myRef,postRef,getRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_terminal);
+        Firebase.setAndroidContext(this);
+        myRef = new Firebase(getIntent().getExtras().getString("FirebaseUrl"));
+        postRef = myRef.child("users").child(getIntent().getExtras().getString("Username"));
         mExecute = (Button)findViewById(R.id.btnExecute);
         mCommand = (EditText)findViewById(R.id.etCommand);
         mListView = (ListView)findViewById(R.id.lvCommands);
@@ -41,12 +50,48 @@ public class Terminal extends Activity {
                     mListView.invalidateViews();
                     mCommand.setText("");
                     mCommand.setHint("Enter Command");
+                    PostCMD();
                 }
             }
         });
-        arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,cmds);
-        mListView.setAdapter(arrayAdapter);
+        //arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,cmds);
+        //arrayAdapter = new ArrayAdapter<>(this,R.layout.cmdlayout,cmds);
+        mListView.setAdapter(new CustomAdapter(this,cmds));
 
+        getRef = myRef.child("users").child(getIntent().getExtras().getString("Username"));
+        getRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                cmds.add(dataSnapshot.child(cmds.get(cmds.size()-1)).getValue().toString());
+                mListView.invalidateViews();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+    }
+
+    public void PostCMD()
+    {
+        postRef.child(cmds.get(cmds.size()-1)).setValue("response");
     }
 
 

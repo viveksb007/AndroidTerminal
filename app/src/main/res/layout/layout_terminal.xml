@@ -11,24 +11,35 @@
         android:layout_height="match_parent"
         android:id="@+id/lvCommands"
         android:layout_weight="1"/>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:weightSum="100"
         android:layout_weight="9"
-        >
+        android:gravity="center">
+        <awesome.TextAwesome
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_terminal"
+            android:textSize="25sp"
+            android:layout_gravity="bottom"/>
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="237dp"
+            android:layout_height="wrap_content"
             android:id="@+id/etCommand"
-            android:layout_weight="25"
-            android:hint="Enter Command"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:hint="Enter Command"
+            android:layout_weight="0.98"
+            android:layout_gravity="bottom"/>
+        <awesome.ButtonAwesome
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
             android:id="@+id/btnExecute"
-            android:text="Execute"
-            android:layout_weight="75"/>
+            android:text="@string/fa_arrow_circle_right"
+            android:layout_gravity="bottom"
+            android:textSize="25sp"
+            android:gravity="center"/>
+
     </LinearLayout>
 </LinearLayout>

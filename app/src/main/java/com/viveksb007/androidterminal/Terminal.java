@@ -58,17 +58,17 @@ public class Terminal extends Activity {
         //arrayAdapter = new ArrayAdapter<>(this,R.layout.cmdlayout,cmds);
         mListView.setAdapter(new CustomAdapter(this,cmds));
 
-        getRef = myRef.child("users").child(getIntent().getExtras().getString("Username"));
+        getRef = myRef.child("users").child(getIntent().getExtras().getString("Username")).child("response");
         getRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
+                cmds.add(dataSnapshot.getValue().toString());
+                mListView.invalidateViews();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                cmds.add(dataSnapshot.child(cmds.get(cmds.size()-1)).getValue().toString());
-                mListView.invalidateViews();
+
             }
 
             @Override
@@ -91,7 +91,7 @@ public class Terminal extends Activity {
 
     public void PostCMD()
     {
-        postRef.child(cmds.get(cmds.size()-1)).setValue("response");
+        postRef.child("cmds").push().setValue(cmds.get(cmds.size()-1));
     }
 
 

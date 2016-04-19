@@ -10,41 +10,41 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-/**
- * Created by viveksb007 on 2/28/16.
- */
 public class Settings extends AppCompatActivity {
 
     EditText mNewUserName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_settings);
-        mNewUserName = (EditText)findViewById(R.id.etNewUserName);
+        mNewUserName = (EditText) findViewById(R.id.etNewUserName);
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_settings,menu);
+        getMenuInflater().inflate(R.menu.menu_settings, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id==R.id.save){
-        if(mNewUserName.getText().toString().equals("")){
-            Toast.makeText(Settings.this, "Add New Username to Save", Toast.LENGTH_SHORT).show();
-        }else{
-            SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("username", mNewUserName.getText().toString());
-            editor.commit();
-            Toast.makeText(Settings.this, "New Username Saved", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(this,MainActivity.class);
-            startActivity(i);
-        }
+        if (id == R.id.save) {
+            if (mNewUserName.getText().toString().equals("")) {
+                Toast.makeText(Settings.this, "Add New Username to Save", Toast.LENGTH_SHORT).show();
+            } else {
+                SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("username", mNewUserName.getText().toString());
+                editor.commit();
+                Toast.makeText(Settings.this, "New Username Saved", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+            }
+        } else if (id == R.id.cancel) {
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -12,10 +12,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -27,18 +28,23 @@ public class Terminal extends Activity {
     EditText mCommand;
     ListView mListView;
     ArrayAdapter<String> arrayAdapter;
-    Firebase myRef,postRef,getRef;
+    FirebaseDatabase database;
+    DatabaseReference myRef,postRef,getRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_terminal);
-        Firebase.setAndroidContext(this);
-        myRef = new Firebase(getIntent().getExtras().getString("FirebaseUrl"));
-        postRef = myRef.child("users").child(getIntent().getExtras().getString("Username"));
+
+        database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users");
+
+        postRef = myRef.child(getIntent().getExtras().getString("Username"));
+
         mExecute = (Button)findViewById(R.id.btnExecute);
         mCommand = (EditText)findViewById(R.id.etCommand);
         mListView = (ListView)findViewById(R.id.lvCommands);
+
         mExecute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +64,8 @@ public class Terminal extends Activity {
         //arrayAdapter = new ArrayAdapter<>(this,R.layout.cmdlayout,cmds);
         mListView.setAdapter(new CustomAdapter(this,cmds));
 
-        getRef = myRef.child("users").child(getIntent().getExtras().getString("Username")).child("response");
+        getRef = myRef.child(getIntent().getExtras().getString("Username")).child("response");
+
         getRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -82,7 +89,7 @@ public class Terminal extends Activity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

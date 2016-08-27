@@ -7,23 +7,24 @@ from firebase import firebase
 import subprocess
 import time
 
+user = "viveksb007"
 
 def execmd(cmd):
     return subprocess.getoutput(cmd)
 
 def postresponse(response):
-    r = f.post('/users/viveksb007/response',response)
+    r = f.post('/users/'+user+'/response',response)
     print(r)
 
 def readcmd():
-    r = f.get('users/viveksb007/cmds',None)
+    r = f.get('users/'+user+'/cmds',None)
     if r != None:
         values = list(r.values())
         print(values)
         postresponse(execmd(values[0]))
-        f.delete('users/viveksb007/cmds',None)
+        f.delete('users/'+user+'/cmds',None)
 
-f = firebase.FirebaseApplication("https://androidterminal.firebaseio.com")
+f = firebase.FirebaseApplication("https://admob-app-id-2073089105.firebaseio.com")
 
 while True:
     readcmd()

@@ -13,19 +13,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 
 public class MainActivity extends AppCompatActivity {
 
     EditText mUserName;
     Button mLoginTerminal;
     String userName;
-    String FIREBASE_URL = "https://androidterminal.firebaseio.com/";
+    String FIREBASE_URL = "https://admob-app-id-2073089105.firebaseio.com/";
     boolean firstTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(getApplicationContext(), getString(R.string.app_id));
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         mUserName = (EditText) findViewById(R.id.etUserName);
         mLoginTerminal = (Button) findViewById(R.id.btnLoginTerminal);
         SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
@@ -42,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
                         saveUserName();
                     }
                     Intent i = new Intent(getApplicationContext(), Terminal.class);
-                    i.putExtra("FirebaseUrl", FIREBASE_URL);
                     i.putExtra("Username", mUserName.getText().toString());
                     startActivity(i);
                 }
@@ -65,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         } else if (id == R.id.about) {
             DialogFragment aboutDialog = new about();
-            aboutDialog.show(getSupportFragmentManager(),"ATerminal");
+            aboutDialog.show(getSupportFragmentManager(), "ATerminal");
             return true;
         }
         return super.onOptionsItemSelected(item);

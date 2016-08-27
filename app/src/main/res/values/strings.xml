@@ -3,6 +3,9 @@
     <string name="about_msg">It`s an app which lets you give command to your device`s TERMINAL via Android device.</string>
     <string name="fa_adjust">&#xf042;</string>
     <string name="fa_terminal">&#xf120;</string>
+    <string name="banner_add_unit_id">ca-app-pub-9817634493101237/3549822308</string>
+    <string name="test_add">ca-app-pub-9817634493101237/1375085101</string>
+    <string name="app_id">ca-app-pub-9817634493101237~2073089105</string>
         <string name="fa_adn">&#xf170;</string>
         <string name="fa_align_center">&#xf037;</string>
         <string name="fa_align_justify">&#xf039;</string>
